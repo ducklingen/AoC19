@@ -8,6 +8,7 @@ def readInputCommaLine(fileName):
 
 
 def readInputCommaLines(fileName):
+
     lines = readInputLines(fileName)
 
     lists = []
