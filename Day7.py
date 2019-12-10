@@ -1,11 +1,15 @@
-from helpers import AoCHelper, IntcodeComputer
+from helpers import AoCHelper
 from itertools import permutations
+
+from helpers.IntcodeComputer import IntcodeComputer
 
 
 def runDay7Program(input1, input2):
     programDefinition = AoCHelper.readInputCommaLine("day7input.txt")
 
-    return IntcodeComputer.runProgram(programDefinition, input1, input2)
+    computer = IntcodeComputer(programDefinition)
+
+    return computer.runProgram(input1, input2)
 
 
 combinations = permutations([0, 1, 2, 3, 4])

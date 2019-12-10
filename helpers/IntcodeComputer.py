@@ -1,82 +1,86 @@
-def getNextInstruction(instructionParam):
-    return int(instructionParam) % 10
+class IntcodeComputer:
+    programCode = []
 
+    def __init__(self, programCode):
+        self.programCode = programCode
 
-def getParameter(io, paramPos, instructionPos, programToRun):
-    iofields = list(io)
-    iofields.reverse()
-    iofields = iofields + ['0', '0', '0', '0', '0']
+    def getNextInstruction(self, instructionParam):
+        return int(instructionParam) % 10
 
-    intermediate = int(iofields[paramPos + 1])
+    def getParameter(self, io, paramPos, instructionPos, programToRun):
+        iofields = list(io)
+        iofields.reverse()
+        iofields = iofields + ['0', '0', '0', '0', '0']
 
-    if intermediate == 0:
-        return int(programToRun[instructionPos + paramPos])
-    elif intermediate == 1:
-        return instructionPos + paramPos
+        intermediate = int(iofields[paramPos + 1])
 
+        if intermediate == 0:
+            return int(programToRun[instructionPos + paramPos])
+        elif intermediate == 1:
+            return instructionPos + paramPos
 
-def runProgram(programToRun, input, input2):
-    instructionPosition = 0
-    output = 0
-    inputParam = input
+    def runProgram(self, input, input2):
+        instructionPosition = 0
+        output = 0
+        inputParam = input
 
-    instruction = getNextInstruction(int(programToRun[instructionPosition]))
+        instruction = self.getNextInstruction(int(self.programCode[instructionPosition]))
 
-    while instruction in (1, 2, 3, 4, 5, 6, 7, 8):
+        while instruction in (1, 2, 3, 4, 5, 6, 7, 8):
 
-        instructionObject = str(programToRun[instructionPosition])
+            instructionObject = str(self.programCode[instructionPosition])
 
-        if len(instructionObject) > 2:
-            firstInput = getParameter(instructionObject, 1, instructionPosition, programToRun)
-            secondInput = getParameter(instructionObject, 2, instructionPosition, programToRun)
-            output = getParameter(instructionObject, 3, instructionPosition, programToRun)
-        else:
-            firstInput = int(programToRun[instructionPosition + 1])
-            secondInput = int(programToRun[instructionPosition + 2])
-            try:
-                output = int(programToRun[instructionPosition + 3])
-            except IndexError:
-                output = 0
-
-        if instruction == 1:
-            programToRun[output] = int(programToRun[firstInput]) + int(programToRun[secondInput])
-            nextStep = instructionPosition + 4
-        if instruction == 2:
-            programToRun[output] = int(programToRun[firstInput]) * int(programToRun[secondInput])
-            nextStep = instructionPosition + 4
-        if instruction == 3:
-            programToRun[firstInput] = inputParam
-            inputParam = input2
-            nextStep = instructionPosition + 2
-        if instruction == 4:
-            output = programToRun[firstInput]
-            # print("Output is " + str(output))
-            nextStep = instructionPosition + 2
-        if instruction == 5:
-            if int(programToRun[firstInput]) != 0:
-                nextStep = int(programToRun[secondInput])
+            if len(instructionObject) > 2:
+                firstInput = self.getParameter(instructionObject, 1, instructionPosition, self.programCode)
+                secondInput = self.getParameter(instructionObject, 2, instructionPosition, self.programCode)
+                output = self.getParameter(instructionObject, 3, instructionPosition, self.programCode)
             else:
-                nextStep = instructionPosition + 3
-        if instruction == 6:
-            if int(programToRun[firstInput]) == 0:
-                nextStep = int(programToRun[secondInput])
-            else:
-                nextStep = instructionPosition + 3
-        if instruction == 7:
-            if int(programToRun[firstInput]) < int(programToRun[secondInput]):
-                programToRun[output] = 1
-            else:
-                programToRun[output] = 0
-            nextStep = instructionPosition + 4
+                firstInput = int(self.programCode[instructionPosition + 1])
+                secondInput = int(self.programCode[instructionPosition + 2])
+                try:
+                    output = int(self.programCode[instructionPosition + 3])
+                except IndexError:
+                    output = 0
 
-        if instruction == 8:
-            if int(programToRun[firstInput]) == int(programToRun[secondInput]):
-                programToRun[output] = 1
-            else:
-                programToRun[output] = 0
-            nextStep = instructionPosition + 4
+            if instruction == 1:
+                self.programCode[output] = int(self.programCode[firstInput]) + int(self.programCode[secondInput])
+                nextStep = instructionPosition + 4
+            if instruction == 2:
+                self.programCode[output] = int(self.programCode[firstInput]) * int(self.programCode[secondInput])
+                nextStep = instructionPosition + 4
+            if instruction == 3:
+                self.programCode[firstInput] = inputParam
+                inputParam = input2
+                nextStep = instructionPosition + 2
+            if instruction == 4:
+                output = self.programCode[firstInput]
+                print("Output is " + str(output))
+                nextStep = instructionPosition + 2
+            if instruction == 5:
+                if int(self.programCode[firstInput]) != 0:
+                    nextStep = int(self.programCode[secondInput])
+                else:
+                    nextStep = instructionPosition + 3
+            if instruction == 6:
+                if int(self.programCode[firstInput]) == 0:
+                    nextStep = int(self.programCode[secondInput])
+                else:
+                    nextStep = instructionPosition + 3
+            if instruction == 7:
+                if int(self.programCode[firstInput]) < int(self.programCode[secondInput]):
+                    self.programCode[output] = 1
+                else:
+                    self.programCode[output] = 0
+                nextStep = instructionPosition + 4
 
-        instruction = getNextInstruction(programToRun[nextStep])
-        instructionPosition = nextStep
+            if instruction == 8:
+                if int(self.programCode[firstInput]) == int(self.programCode[secondInput]):
+                    self.programCode[output] = 1
+                else:
+                    self.programCode[output] = 0
+                nextStep = instructionPosition + 4
 
-    return output
+            instruction = self.getNextInstruction(self.programCode[nextStep])
+            instructionPosition = nextStep
+
+        return output
