@@ -1,16 +1,40 @@
 import itertools
+from math import gcd
+# europa = [[17, -9, 4], [0, 0, 0]]
+# io = [[2, 2, -13], [0, 0, 0]]
+# ganymede = [[-1, 5, -1], [0, 0, 0]]
+# callisto = [[4, 7, -7], [0, 0, 0]]
 
-europa = ((-1, 0, 2), (0,0,0))
-io = ((2, -10, -7), (0,0,0))
-ganymede = ((4,-8,8), (0,0,0))
-callisto = ((3,5,-1), (0,0,0))
+europa = [[-1, 0, 2], [0, 0, 0]]
+io = [[2, -10, -7], [0, 0, 0]]
+ganymede = [[4, -8, 8], [0, 0, 0]]
+callisto = [[3, 5, -1], [0, 0, 0]]
 
 moons = [europa, io, ganymede, callisto]
 
-for i in range(3):
-    for j in range(3):
-        if j > i:
-            for k in range(2):
+
+def performStep(moons):
+    for i in range(4):
+        for j in range(4):
+            if j > i:
+                for k in range(3):
+                    if moons[i][0][k] > moons[j][0][k]:
+                        moons[i][1][k] = moons[i][1][k] - 1
+                        moons[j][1][k] = moons[j][1][k] + 1
+                    elif moons[i][0][k] < moons[j][0][k]:
+                        moons[i][1][k] = moons[i][1][k] + 1
+                        moons[j][1][k] = moons[j][1][k] - 1
+
+    for moon in moons:
+        for k in range(3):
+            moon[0][k] = moon[0][k] + moon[1][k]
+
+    return moons
+
+def performStepDirection(moons, k):
+    for i in range(4):
+        for j in range(4):
+            if j > i:
                 if moons[i][0][k] > moons[j][0][k]:
                     moons[i][1][k] = moons[i][1][k] - 1
                     moons[j][1][k] = moons[j][1][k] + 1
@@ -18,4 +42,76 @@ for i in range(3):
                     moons[i][1][k] = moons[i][1][k] + 1
                     moons[j][1][k] = moons[j][1][k] - 1
 
-print(moons)
+    for moon in moons:
+        moon[0][k] = moon[0][k] + moon[1][k]
+
+    return moons
+
+def copyMoons(moons):
+    moonsCopy = [[[0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0]]]
+
+    for i in range(4):
+        for j in range(2):
+            for k in range(3):
+                moonsCopy[i][j][k] = moons[i][j][k]
+
+    return moonsCopy
+
+def hashMoons(moons):
+    moonsAsString = ""
+
+    for i in range(4):
+        for j in range(2):
+            for k in range(3):
+                moonsAsString = moonsAsString + str(moons[i][j][k])
+
+    return moonsAsString
+
+def hashMoonsDirection(moons, k):
+    moonsAsString = ""
+
+    for i in range(4):
+        for j in range(2):
+            moonsAsString = moonsAsString + str(moons[i][j][k])
+
+    return moonsAsString
+
+def lcm(a, b):
+    return int(a * b / gcd(a, b))
+
+print(lcm(8105331930, 193052))
+print(lcm(lcm(18, 28), 44))
+
+# while True:
+for k in range(3):
+    steps = 0
+
+    states = []
+    statesAsSet = set([])
+
+    while len(states) == len(statesAsSet):
+
+        steps = steps + 1
+        moonsHash = hashMoonsDirection(moons, k)
+        states.append(moonsHash)
+        statesAsSet.add(moonsHash)
+        moons = performStepDirection(moons, k)
+        # if steps % 1000 == 0:
+            # print(steps)
+
+    print(steps-1)
+
+# def calculateEnergiOfMoon(moon):
+#     return (abs(moon[0][0])+abs(moon[0][1])+abs(moon[0][2]))*(abs(moon[1][0])+abs(moon[1][1])+abs(moon[1][2]))
+#
+# for i in range(1000):
+#     moons = performStep(moons)
+#     print(i)
+#     print(moons)
+#
+# totalEnergi = 0
+#
+# for moon in moons:
+#     totalEnergi = totalEnergi + calculateEnergiOfMoon(moon)
+#
+# print(totalEnergi)
