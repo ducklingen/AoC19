@@ -1,11 +1,12 @@
 from helpers import AoCHelper
+
 def convertInputToBoard(lines):
     board = []
 
     for line in lines:
         row = []
 
-        for i in range(5):
+        for i in range(len(line)):
             if line[i] == "#":
                 row.append(1)
             elif line[i] == ".":
@@ -18,7 +19,7 @@ def printBoard(board):
     for row in board:
         rowAsString = ""
 
-        for i in range(5):
+        for i in range(len(row)):
             if row[i] == 1:
                 rowAsString += "#"
             else:
@@ -29,20 +30,20 @@ def amountOfNeighbouringBugs(board, x, y):
     neighbouringBugs = 0
 
     if x > 0:
-        neighbouringBugs += board[x-1][y]
+        neighbouringBugs += board[x - 1][y]
     if y > 0:
-        neighbouringBugs += board[x][y-1]
+        neighbouringBugs += board[x][y - 1]
     if x < 4:
-        neighbouringBugs += board[x+1][y]
+        neighbouringBugs += board[x + 1][y]
     if y < 4:
-        neighbouringBugs += board[x][y+1]
+        neighbouringBugs += board[x][y + 1]
 
     return neighbouringBugs
 def calculateNextStateOfPoint(board, x, y):
     if board[x][y] == 1:
-        result = 1 if amountOfNeighbouringBugs(board, x ,y) == 1 else 0
+        result = 1 if amountOfNeighbouringBugs(board, x, y) == 1 else 0
     elif board[x][y] == 0:
-        result = 1 if amountOfNeighbouringBugs(board, x, y) in (1,2) else 0
+        result = 1 if amountOfNeighbouringBugs(board, x, y) in (1, 2) else 0
 
     return result
 def passTime(board):
@@ -71,6 +72,7 @@ def boardAsString(board):
 
     return boardAsString
 
+
 # for i in range(5):
 #     print(boardAsString(board))
 #     board = passTime(board)
@@ -98,6 +100,6 @@ result = 0
 
 for i in range(len(boardString)):
     if int(boardString[i]) == 1:
-        result += 2**i
+        result += 2 ** i
 
 print(result)
