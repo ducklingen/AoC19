@@ -1,5 +1,5 @@
-import itertools
 from math import gcd
+
 europa = [[17, -9, 4], [0, 0, 0]]
 io = [[2, 2, -13], [0, 0, 0]]
 ganymede = [[-1, 5, -1], [0, 0, 0]]
@@ -36,6 +36,7 @@ def performStep(moons):
 
     return moons
 
+
 def performStepDirection(moons, k):
     for i in range(4):
         for j in range(4):
@@ -52,25 +53,6 @@ def performStepDirection(moons, k):
 
     return moons
 
-def copyMoons(moons):
-    moonsCopy = [[[0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0]]]
-
-    for i in range(4):
-        for j in range(2):
-            for k in range(3):
-                moonsCopy[i][j][k] = moons[i][j][k]
-
-    return moonsCopy
-
-def hashMoons(moons):
-    moonsAsString = ""
-
-    for i in range(4):
-        for j in range(2):
-            for k in range(3):
-                moonsAsString = moonsAsString + str(moons[i][j][k])
-
-    return moonsAsString
 
 def moonsDirectionAsString(moons, k):
     moonsAsString = ""
@@ -81,8 +63,10 @@ def moonsDirectionAsString(moons, k):
 
     return moonsAsString
 
+
 def lcm(a, b):
     return int(a * b / gcd(a, b))
+
 
 periods = []
 
@@ -92,19 +76,19 @@ for k in range(3):
 
     statesAsSet = set([])
 
-    moonsHash = ""
+    moonsAsString = ""
 
-    while steps == 0 or moonsHash not in statesAsSet:
+    while steps == 0 or moonsAsString not in statesAsSet:
         steps = steps + 1
-        statesAsSet.add(moonsHash)
+        statesAsSet.add(moonsAsString)
         moons = performStepDirection(moons, k)
-        moonsHash = moonsDirectionAsString(moons, k)
+        moonsAsString = moonsDirectionAsString(moons, k)
 
         # if steps % 1000 == 0:
         #     print(steps)
 
-    print(steps-1)
-    periods.append(steps-1)
+    print(steps - 1)
+    periods.append(steps - 1)
 
 print(lcm(lcm(periods[0], periods[1]), periods[2]))
 
