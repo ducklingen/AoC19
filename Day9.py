@@ -7,4 +7,4 @@ inputProgramString = '1102,34463338,34463338,63,1007,63,34463338,63,1005,63,53,1
 
 inputProgram = inputProgramString.split(',')
 
-IntcodeComputer.runProgram({i: inputProgram[i] for i in range(0, len(inputProgram))}, [2, 2])
+IntcodeComputer.runProgram(inputProgram, [2, 2])
