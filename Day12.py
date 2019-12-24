@@ -1,9 +1,9 @@
 from math import gcd
 
-europa = [[17, -9, 4], [0, 0, 0]]
-io = [[2, 2, -13], [0, 0, 0]]
-ganymede = [[-1, 5, -1], [0, 0, 0]]
-callisto = [[4, 7, -7], [0, 0, 0]]
+europa = [[-17, -9, -4], [0, 0, 0]]
+io = [[-2, 2, 13], [0, 0, 0]]
+ganymede = [[1, 5, 1], [0, 0, 0]]
+callisto = [[-4, 7, 7], [0, 0, 0]]
 
 # europa = [[4, 12, 13], [0, 0, 0]]
 # io = [[-9, 14, -3], [0, 0, 0]]
@@ -59,7 +59,7 @@ def moonsDirectionAsString(moons, k):
 
     for i in range(4):
         for j in range(2):
-            moonsAsString = moonsAsString + str(moons[i][j][k])
+            moonsAsString = moonsAsString + str(moons[i][j][k]) + "$"
 
     return moonsAsString
 
@@ -87,6 +87,7 @@ for k in range(3):
         # if steps % 1000 == 0:
         #     print(steps)
 
+    print(moonsAsString)
     print(steps - 1)
     periods.append(steps - 1)
 
