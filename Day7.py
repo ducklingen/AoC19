@@ -1,7 +1,7 @@
 from helpers import AoCHelper
 from itertools import permutations
 
-from helpers.IntcodeComputer import IntcodeComputer
+from helpers.IntcodeComputerObj import IntcodeComputer
 
 
 def runDay7Program(input1, input2):

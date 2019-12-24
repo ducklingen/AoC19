@@ -1,4 +1,4 @@
-from helpers.IntcodeComputer import IntcodeComputer
+from helpers import IntcodeComputer
 
 # inputProgramString = '109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99'
 # inputProgramString = '1102,34915192,34915192,7,4,7,99,0'
@@ -7,6 +7,4 @@ inputProgramString = '1102,34463338,34463338,63,1007,63,34463338,63,1005,63,53,1
 
 inputProgram = inputProgramString.split(',')
 
-computer = IntcodeComputer(inputProgram)
-
-computer.runProgram(2,2)
+IntcodeComputer.runProgram({i: inputProgram[i] for i in range(0, len(inputProgram))}, [2, 2])
